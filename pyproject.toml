@@ -1,0 +1,35 @@
+[project]
+name = "e2e-dspy-voice-agents"
+version = "0.1.0"
+description = "End-to-end customer support voice agent built with DSPy framework"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "dspy>=3.0.2",
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "asyncio",
+]
+
+[project.optional-dependencies]
+voice = [
+    "pyaudio>=0.2.11",
+    "speech-recognition>=3.10.0",
+    "pydub>=0.25.1",
+    "whisper>=1.1.10",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+voice-agent = "main:main"

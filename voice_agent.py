@@ -1,8 +1,14 @@
 import dspy
-from typing import List, Dict, Optional
+from typing import List, Dict
 from dataclasses import dataclass
 import json
-import asyncio
+import opik
+from opik.integrations.dspy.callback import OpikCallback
+import os
+
+project_name = "farouk/customer-support-agent" # in modaic this will usually be the string {entityName}/{agentName}
+opik.configure(use_local=os.getenv("ENVIRONMENT", "dev") == "dev")
+opik_callback = OpikCallback(project_name=project_name)
 
 
 @dataclass
@@ -74,6 +80,10 @@ class CustomerSupportAgent:
     def __init__(self, lm_model: str = "openai/gpt-4o-mini"):
         self.lm = dspy.LM(lm_model)
         dspy.configure(lm=self.lm)
+
+        dspy.settings.configure(
+            callbacks=[opik_callback],
+        )
         
         # Initialize DSPy modules
         self.intent_classifier = dspy.ChainOfThought(IntentClassifier)
